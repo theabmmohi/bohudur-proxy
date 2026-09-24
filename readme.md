@@ -27,7 +27,7 @@ your app ──► bohudur-proxy (this repo) ──► request.bohudur.one
 
 ## Using the relay
 
-1. Open the bot (`@YOUR_BOT_USERNAME`) and send `/start`.
+1. Open the bot (`[@BohudurProxyBot](https;://t.me/BohudurProxyBot)`) and send `/start`.
 2. Tap **🔑 Get** and send a duration such as `30m`, `12h` or `7d`. The bot replies with your key.
 3. Call the Bohudur API as usual, but use the relay's address as the base URL and add your key as `x-relay-key`. Paths, bodies and headers stay the same as in the [Bohudur docs](https://docs.bohudur.one).
 
