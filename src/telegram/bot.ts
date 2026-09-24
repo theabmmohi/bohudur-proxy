@@ -41,17 +41,15 @@ function formatKeyMessage(token: string): string {
 }
 
 function formatUserRow(user: DatabaseUser): string {
-  const safeName = user.name.replace(/[`\\]/g, "")
-  return (
-    "```\n" +
-    `tg_id: ${user.tg_id}\n` +
-    `username: ${user.username ?? "-"}\n` +
-    `name: ${safeName}\n` +
-    `jwt: ${user.jwt ?? "-"}\n` +
-    `banned: ${user.banned}\n` +
-    `created_at: ${new Date(user.created_at).toISOString()}\n` +
-    "```"
-  )
+  const safeName = user.name.trim().replace(/[`\\]/g, "") || "-"
+  const username = user.username ? `@${user.username}` : "-"
+  return [
+    `Telegram ID: \`${user.tg_id}\``,
+    `Username: ${username}`,
+    `name: ${safeName}`,
+    `JWT: \`${user.jwt ?? "-"}\``,
+    `Banned: ${user.banned ? "Yes" : "No"}`,
+  ].join("\n")
 }
 
 async function findUserByIdentifier(identifier: string): Promise<DatabaseUser | null | undefined> {
@@ -99,6 +97,7 @@ privateChat.on("message:text", async (context) => {
   const telegramId = String(context.from.id)
   const pendingInput = pendingInputs.get(telegramId)
   const messageText = context.msg.text.trim()
+
   if (pendingInput === "duration") {
     const duration = messageText.toLowerCase()
     if (!parseDuration(duration)) {
@@ -111,6 +110,7 @@ privateChat.on("message:text", async (context) => {
     await saveUser(telegramId, context.from.username ?? null, displayName, token)
     return context.reply(formatKeyMessage(token), markdownV2)
   }
+
   if ((pendingInput === "search" || pendingInput === "toggleBan") && isAdmin(context)) {
     const user = await findUserByIdentifier(messageText)
     if (user === undefined) {
@@ -125,6 +125,10 @@ privateChat.on("message:text", async (context) => {
     const updatedUser = (await getUser(user.tg_id)) ?? user
     const title = isNowBanned ? "*Banned*" : "*Unbanned*"
     return context.reply(`${title}\n${formatUserRow(updatedUser)}`, markdownV2)
+  }
+
+  if (!pendingInput) {
+    return context.reply("Nothing to do !")
   }
 })
 
