@@ -4,6 +4,15 @@ A small relay that lets community members call the [Bohudur](https://bohudur.one
 
 > Unofficial community project, run with the permission of Bohudur's owner. Not affiliated with Bohudur.
 
+## Base URLs
+
+| Host | URL |
+| ---- | --- |
+| Custom domain | `https://proxy.abm.ami.bd` |
+| Render | `https://bohudur-proxy.onrender.com` |
+
+Both reach the same relay. Use either one as the base URL.
+
 ## How it works
 
 ```
@@ -76,7 +85,6 @@ const response = await fetch("https://proxy.abm.ami.bd/create/v2/", {
 
 ### Good to know
 
-- **The first request after a quiet period can be slow.** Free hosts put idle services to sleep, and waking one takes 30-60 seconds. Use a generous timeout, or ping the relay every few minutes.
 - **The relay can see your Bohudur API key and request bodies**, because they pass through it. The code never logs headers or bodies, and the database stores only your Telegram ID, username, name and current relay key. Even so, you are trusting whoever runs the relay. If that matters to you, [self-host it](#self-hosting).
 - **If your Bohudur account restricts allowed IPs** (errors `3016`, `3054`, `3104`), allow the relay's outbound IP addresses instead of your own server's.
 - There is **no rate limiting**, and request bodies are held in memory, which suits small API calls, not large uploads.
@@ -96,7 +104,7 @@ A duration is a number followed by `m`, `h` or `d`, for example `30m`, `12h` or 
 
 ## Self-hosting
 
-You need Node 20 or newer, a Postgres database, a Telegram bot, and a host with public HTTPS (Render works).
+You need Node 20 or newer, a Postgres database, a Telegram bot, and a host with public HTTPS.
 
 1. **Create the bot.** Talk to [@BotFather](https://t.me/BotFather) for the token, and to [@userinfobot](https://t.me/userinfobot) for your own numeric Telegram ID.
 2. **Create a Postgres database.** Neon and Supabase free tiers work. The `users` table is created automatically on startup. If the server uses a self-signed certificate, end your connection string with `?sslmode=no-verify`.
@@ -116,15 +124,15 @@ You need Node 20 or newer, a Postgres database, a Telegram bot, and a host with 
 | `PG_URL` | Postgres connection string |
 | `TG_BOT` | Bot token from BotFather |
 | `TG_ADMIN` | Your numeric Telegram ID, the only admin |
-| `PORT` | Optional, defaults to `3000`. Render sets it for you. |
+| `PORT` | Optional, defaults to `3000`. Most hosts set it for you. |
 
-5. **Deploy on Render.** Create a Web Service from the repo:
+5. **Deploy.** Run the repo as a Node web service on your host:
    - Build command: `npm install && npm run build`
    - Start command: `npm run server`
    - Add the environment variables above.
 
    On startup the service registers its Telegram webhook by itself.
-6. **Custom domain (optional).** Add a `CNAME` record pointing to `your-service.onrender.com`, add the domain under Settings, then Custom Domains in Render, and use it as `PUBLIC_URL`.
+6. **Custom domain (optional).** Point a `CNAME` record at your host's address, add the domain in your host's dashboard, and use it as `PUBLIC_URL`.
 
 ### Local development
 
