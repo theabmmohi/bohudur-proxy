@@ -6,12 +6,20 @@ export type User = {
   name: string;
   jwt: string | null;
   banned: boolean;
+  created_at: Date;
 }
 
 export async function getUser(tgId: string): Promise<User | null> {
   const { rows } = await db.query<User>(`
     select * from users where tg_id = $1
   `, [tgId])
+  return rows[0] ?? null
+}
+
+export async function getUserByUsername(username: string): Promise<User | null> {
+  const { rows } = await db.query<User>(`
+    select * from users where lower(username) = lower($1)
+  `, [username])
   return rows[0] ?? null
 }
 

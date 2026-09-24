@@ -11,7 +11,8 @@
     "paths": {
       "@db/*": ["./src/database/*"],
       "@tg/*": ["./src/telegram/*"],
-      "@util/*": ["./src/utils/*"]
+      "@util/*": ["./src/utils/*"],
+      "@/*": ["./src/*"]
     }
   },
   "include": ["src"]

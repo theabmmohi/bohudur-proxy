@@ -11,6 +11,7 @@ if (!Number.isInteger(port) || port <= 0) throw new Error("Invalid PORT")
 
 const env = {
   jwtSecret: require("JWT_SECRET"),
+  publicURL: require("PUBLIC_URL"),
   port: port,
   bohudurURL: require("BOHUDUR_URL"),
   pgURL: require("PG_URL"),
