@@ -46,7 +46,7 @@ function formatUserRow(user: DatabaseUser): string {
   return [
     `Telegram ID: \`${user.tg_id}\``,
     `Username: ${username}`,
-    `name: ${safeName}`,
+    `Name: ${safeName}`,
     `JWT: \`${user.jwt ?? "-"}\``,
     `Banned: ${user.banned ? "Yes" : "No"}`,
   ].join("\n")
