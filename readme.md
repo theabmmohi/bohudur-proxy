@@ -1,3 +1,6 @@
+> [!WARNING]
+> Those hosts might not be available and Im archiving this project, but you can clone this repo and [self-host](#self-hosting)
+
 # bohudur-proxy
 
 A small relay that lets community members call the [Bohudur](https://bohudur.one) payment API through one shared server. It exists for people on free hosts (Railway and similar) whose IP addresses the gateway's provider flags as spam. Each member gets a personal key from a Telegram bot.
