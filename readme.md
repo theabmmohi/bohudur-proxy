@@ -67,8 +67,6 @@ const response = await fetch("https://proxy.abm.ami.bd/create/v2/", {
 })
 ```
 
-> The `@theabmmohi/bohudur` SDK (v1.1.2) hard-codes the Bohudur URL and has no option for extra headers, so use `fetch` as above until it does.
-
 ### What the relay does to your request
 
 - **Passed through:** method, path, query string, body, and every header, including `AH-BOHUDUR-API-KEY` and any other custom `X-...` header.
